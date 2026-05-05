@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-funcionarios
+spec:
+  replicas: 2 # Alta disponibilidade
+  selector:
+    matchLabels:
+      app: api-funcionarios
+  template:
+    metadata:
+      labels:
+        app: api-funcionarios
+    spec:
+      containers:
+      - name: api
+        image: api-funcionarios:v1
+        imagePullPolicy: Never # Importante para usar imagem local no Kind
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DB_HOST
+          value: "db-service.default.svc.cluster.local"
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: dbname
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api-funcionarios
+  ports:
+    - port: 80
+      targetPort: 3000

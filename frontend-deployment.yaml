@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-funcionarios
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend-funcionarios
+  template:
+    metadata:
+      labels:
+        app: frontend-funcionarios
+    spec:
+      containers:
+      - name: frontend
+        image: frontend-funcionarios:v3
+        imagePullPolicy: Never # Usa a imagem que carregamos no Kind
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend-funcionarios
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
