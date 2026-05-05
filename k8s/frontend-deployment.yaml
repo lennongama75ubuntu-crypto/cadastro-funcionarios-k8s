@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: frontend-funcionarios:v3
-        imagePullPolicy: Never # Usa a imagem que carregamos no Kind
+        image: lennongama75ubuntu/api-funcionarios:latest
+        imagePullPolicy: Always 
         ports:
         - containerPort: 80
 ---

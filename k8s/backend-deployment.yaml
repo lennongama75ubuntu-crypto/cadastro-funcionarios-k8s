@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: api
-        image: api-funcionarios:v1
-        imagePullPolicy: Never # Importante para usar imagem local no Kind
+        image: lennongama75ubuntu/api-funcionarios:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
