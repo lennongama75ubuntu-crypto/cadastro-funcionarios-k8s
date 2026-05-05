@@ -23,4 +23,4 @@ jobs:
           context: ./backend
           push: true
           # Substitua 'seu-usuario' pelo seu nome no Docker Hub
-          tags: seu-usuario/api-funcionarios:latest
+          tags: lennongama75ubuntu/api-funcionarios:latest
