@@ -59,5 +59,5 @@ jobs:
       - name: Forçar atualização dos Pods (Rollout)
         run: |
           # Como usamos a tag :latest, o K8s precisa de um "empurrão" para baixar a imagem nova
-          kubectl rollout restart deployment backend-funcionarios
+          kubectl rollout restart deployment api-funcionarios
           kubectl rollout restart deployment frontend-funcionarios
