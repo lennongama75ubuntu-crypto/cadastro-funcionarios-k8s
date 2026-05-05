@@ -3,26 +3,18 @@ name: Pipeline Fullstack Funcionarios
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - 'backend/**'
-      - 'frontend/**'
-      - '.github/workflows/**'
 
 jobs:
-  # --- JOB DO BACKEND ---
+  # --- BUILD DA API (Roda na Nuvem do GitHub) ---
   build-backend:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'backend') || github.event_name == 'push'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Login Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build and Push Backend
         uses: docker/build-push-action@v5
         with:
@@ -30,23 +22,42 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/api-funcionarios:latest
 
-  # --- JOB DO FRONTEND ---
+  # --- BUILD DO FRONTEND (Roda na Nuvem do GitHub) ---
   build-frontend:
     runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'frontend') || github.event_name == 'push'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Login Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build and Push Frontend
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/frontend-funcionarios:latest
+
+  # --- DEPLOY NO SEU DEBIAN (Roda no seu Self-hosted Runner) ---
+  deploy:
+    runs-on: self-hosted  # <--- A MÁGICA ACONTECE AQUI
+    needs: [build-backend, build-frontend] # Só começa após os builds terminarem
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Aplicar Manifestos no Kubernetes
+        run: |
+          # Aplica as mudanças nos arquivos YAML
+          kubectl apply -f k8s/db-pvc.yaml
+          kubectl apply -f k8s/db-statefulset.yaml
+          kubectl apply -f k8s/backend-deployment.yaml
+          kubectl apply -f k8s/frontend-deployment.yaml
+          kubectl apply -f k8s/system-ingress.yaml
+
+      - name: Forçar atualização dos Pods (Rollout)
+        run: |
+          # Como usamos a tag :latest, o K8s precisa de um "empurrão" para baixar a imagem nova
+          kubectl rollout restart deployment backend-funcionarios
+          kubectl rollout restart deployment frontend-funcionarios

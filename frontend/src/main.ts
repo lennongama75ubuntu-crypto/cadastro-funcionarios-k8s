@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   imports: [CommonModule, FormsModule],
   template: `
     <div style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background: #fff; color: #333;">
-      <h2 style="color: #007bff;">🚀 Gerenciador de Funcionários</h2>
+      <h2 style="color: #007bff;">🚀Cadastrar Funcionários</h2>
       
       <div style="margin-bottom: 20px; display: flex; gap: 10px;">
         <input [(ngModel)]="novoFuncionario.nome" placeholder="Nome completo" style="padding: 10px; flex: 1; border: 1px solid #ddd; border-radius: 4px;">
