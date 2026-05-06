@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: lennongama75ubuntu/api-funcionarios:latest
-        imagePullPolicy: Always 
+        image: lennongama75ubuntu/frontend-funcionarios:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
