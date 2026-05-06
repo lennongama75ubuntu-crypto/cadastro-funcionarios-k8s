@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background: #fff; color: #333;">
+    <div style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background: #f4f4f4; color: #333;">
       <h2 style="color: #007bff;">🚀Cadastrar Funcionários</h2>
       
       <div style="margin-bottom: 20px; display: flex; gap: 10px;">
