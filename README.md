@@ -41,9 +41,8 @@ A aplicação segue o padrão de microserviços desacoplados:
 
 ## 📸 Demonstração
 
-Segue o link de acesso utilizando o Cloudflare Tunnel para a exposição segura do cluster para a internet.
+<img width="779" height="529" alt="image" src="https://github.com/user-attachments/assets/a2e1fe54-7e32-4813-b838-e12e2824fe71" />
 
-https://demanding-prayer-opera-forums.trycloudflare.com/
 
 ---
 Projetado e implementado com foco em boas práticas de Cloud Native e SRE. ☸️🐳
